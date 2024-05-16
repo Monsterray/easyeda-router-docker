@@ -8,16 +8,15 @@ RUN apt-get update && \
 
 RUN mkdir -p /var/www
 RUN cd /var/www && \
-    wget -O EasyEDA-Router-v0.8.11.zip 'https://image.easyeda.com/files/EasyEDA-Router-v0.8.11.zip'
+    wget -O EasyEDA-Router-latest.zip 'https://image.easyeda.com/files/EasyEDA-Router-latest.zip'
 RUN cd /var/www && \
-    unzip EasyEDA-Router-v0.8.11.zip
+    unzip EasyEDA-Router-latest.zip
 
 RUN sed -i s^127.0.0.1^0.0.0.0^g /var/www/config/local/main.json
 
-ADD entrypoint.sh /var/www
-RUN chmod +x /var/www/entrypoint.sh
+RUN chmod +x /var/www/lin64.sh
 
-RUN rm -f /var/www/EasyEDA-Router-v0.8.11.zip
+RUN rm -f /var/www/EasyEDA-Router-latest.zip
 
 ####
 FROM debian:buster
@@ -29,4 +28,4 @@ RUN apt-get update && \
 COPY --from=BUILDER /var/www/ /var/www/
 
 WORKDIR /var/www
-CMD ["/var/www/entrypoint.sh"]
+CMD ["/var/www/lin64.sh"]
